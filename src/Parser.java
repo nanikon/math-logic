@@ -20,11 +20,26 @@ public class Parser {
     }
 
     public Node parse_expr() {
-        return null;
+        Node left = parse_disjunction();
+        if ((input[position] == '-') && (input[position + 1] == '>')) {
+            position = position + 2;
+            Node right = parse_expr();
+            return new Node(left, right, null, NodeType.EXPRESSION);
+        }
+        return left;
     }
 
     public Node parse_disjunction() {
-        return null;
+        int old_position = position;
+        Node left = parse_conjunction();
+        if (input[position] == '|') {
+            position = old_position;
+            left = parse_disjunction();
+            position++;
+            Node right = parse_conjunction();
+            return new Node(left, right, null, NodeType.DISJUNCTION);
+        }
+        return left;
     }
 
     public Node parse_conjunction() {
@@ -37,14 +52,14 @@ public class Parser {
 
     public Node parse_variable() {
         StringBuilder result = new StringBuilder();
-        while (isDigitOrBigLetter(input[position])) {
+        while (canBeVariableName(input[position])) {
             result.append(input[position]);
             position++;
         }
         return new Node(null, null, result.toString(), NodeType.VARIABLE);
     }
 
-    private boolean isDigitOrBigLetter(char c) {
-        return ((c >= '0') && (c <= '9')) || ((c >= 'A') && (c <= 'Z'));
+    private boolean canBeVariableName(char c) {
+        return ((c >= '0') && (c <= '9')) || ((c >= 'A') && (c <= 'Z')) || (c == '’');
     }
 }
