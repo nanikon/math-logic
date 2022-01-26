@@ -9,9 +9,11 @@ public class Parser {
     // в отрицании если ! - отрицание, скобочка открывающаяся - импликация, буква или число - переменная
     int position;
     char[] input;
+    int length;
 
     public Parser(char[] input) {
         this.input = input;
+        this.length = input.length;
     }
 
     public Node parse() {
@@ -19,9 +21,13 @@ public class Parser {
         return parseExpr();
     }
 
+    private boolean notEnd() {
+        return position < length;
+    }
+
     public Node parseExpr() {
-        Node left = parseDisjunction();
-        if ((input[position] == '-') && (input[position + 1] == '>')) {
+        Node left = parseDisjunction(parseConjunction(parseDenial()));
+        if (notEnd() && (input[position] == '-') && (input[position + 1] == '>')) {
             position = position + 2;
             Node right = parseExpr();
             return new Node(left, right, null, NodeType.EXPRESSION);
@@ -29,48 +35,40 @@ public class Parser {
         return left;
     }
 
-    public Node parseDisjunction() {
-        int old_position = position;
-        Node left = parseConjunction();
-        if (input[position] == '|') {
-            position = old_position;
-            left = parseDisjunction();
-            position++;
-            Node right = parseConjunction();
-            return new Node(left, right, null, NodeType.DISJUNCTION);
-        }
-        return left;
+    public Node parseDisjunction(Node left) {
+        if (!notEnd()) { return left; }
+        if (input[position] != '|') { return left; }
+        position++;
+        Node right = parseConjunction(parseDenial());
+        return parseDisjunction(new Node(left, right, null, NodeType.DISJUNCTION));
     }
 
-    public Node parseConjunction() {
-        if (input[position] == '!') {
-            position++;
-            return parseDenial();
-        }
-        Node left = parseConjunction();
+    public Node parseConjunction(Node left) {
+        if (!notEnd()) { return left; }
+        if (input[position] != '&') { return left; }
         position++;
         Node right = parseDenial();
-        return new Node(left, right, null, NodeType.CONJUNCTION);
+        return parseConjunction(new Node(left, right, null, NodeType.CONJUNCTION));
     }
 
     public Node parseDenial() {
         Node right;
-        if (input[position] == '!'){
+        if (notEnd() && input[position] == '!'){
             position++;
-            right = parseDenial();
-        } else if (input[position] == '(') {
+            right = new Node(null, parseDenial(), null, NodeType.DENIAL);
+        } else if (notEnd() && input[position] == '(') {
             position++;
             right = parseExpr();
+            position++;
         } else {
             right = parseVariable();
-            position++;
         }
-        return new Node(null, right, null, NodeType.DENIAL);
+        return right;
     }
 
     public Node parseVariable() {
         StringBuilder result = new StringBuilder();
-        while (canBeVariableName(input[position])) {
+        while (notEnd() && canBeVariableName(input[position])) {
             result.append(input[position]);
             position++;
         }

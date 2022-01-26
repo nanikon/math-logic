@@ -14,6 +14,10 @@ public class Node {
         this.type = type;
     }
 
+    public String fullStruct() {
+        return "(" + left.toString() + "," + right.toString() + "," + value + "," + type.name() + ")";
+    }
+
     @Override
     public String toString() {
         switch (this.type) {
