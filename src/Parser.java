@@ -16,41 +16,59 @@ public class Parser {
 
     public Node parse() {
         this.position = 0;
-        return parse_expr();
+        return parseExpr();
     }
 
-    public Node parse_expr() {
-        Node left = parse_disjunction();
+    public Node parseExpr() {
+        Node left = parseDisjunction();
         if ((input[position] == '-') && (input[position + 1] == '>')) {
             position = position + 2;
-            Node right = parse_expr();
+            Node right = parseExpr();
             return new Node(left, right, null, NodeType.EXPRESSION);
         }
         return left;
     }
 
-    public Node parse_disjunction() {
+    public Node parseDisjunction() {
         int old_position = position;
-        Node left = parse_conjunction();
+        Node left = parseConjunction();
         if (input[position] == '|') {
             position = old_position;
-            left = parse_disjunction();
+            left = parseDisjunction();
             position++;
-            Node right = parse_conjunction();
+            Node right = parseConjunction();
             return new Node(left, right, null, NodeType.DISJUNCTION);
         }
         return left;
     }
 
-    public Node parse_conjunction() {
-        return null;
+    public Node parseConjunction() {
+        if (input[position] == '!') {
+            position++;
+            return parseDenial();
+        }
+        Node left = parseConjunction();
+        position++;
+        Node right = parseDenial();
+        return new Node(left, right, null, NodeType.CONJUNCTION);
     }
 
-    public Node parse_denial() {
-        return null;
+    public Node parseDenial() {
+        Node right;
+        if (input[position] == '!'){
+            position++;
+            right = parseDenial();
+        } else if (input[position] == '(') {
+            position++;
+            right = parseExpr();
+        } else {
+            right = parseVariable();
+            position++;
+        }
+        return new Node(null, right, null, NodeType.DENIAL);
     }
 
-    public Node parse_variable() {
+    public Node parseVariable() {
         StringBuilder result = new StringBuilder();
         while (canBeVariableName(input[position])) {
             result.append(input[position]);
@@ -62,4 +80,6 @@ public class Parser {
     private boolean canBeVariableName(char c) {
         return ((c >= '0') && (c <= '9')) || ((c >= 'A') && (c <= 'Z')) || (c == '’');
     }
+
+    private void skipProbels() {}
 }
