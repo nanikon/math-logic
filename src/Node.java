@@ -2,10 +2,10 @@
  * @author Natalia Nikonova
  */
 public class Node {
-    private Node left;
-    private Node right;
-    private String value;
-    private NodeType type;
+    private final Node left;
+    private final Node right;
+    private final String value;
+    private final NodeType type;
 
     public Node(Node left, Node right, String value, NodeType type) {
         this.left = left;
