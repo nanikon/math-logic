@@ -11,5 +11,13 @@ public class Main {
         System.out.println(result.toString());
         counter.fullVariables();
         counter.printValues();
+        int trueCount = counter.runAllValues(result);
+        if (trueCount == 0) {
+            System.out.println("Unsatisfiable");
+        } else if (trueCount == counter.getLenValues()) {
+            System.out.println("Valid");
+        } else {
+            System.out.println("Satisfiable and invalid, " + trueCount + " true and " + (counter.getLenValues() - trueCount) + " false cases");
+        }
     }
 }

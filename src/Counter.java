@@ -6,9 +6,9 @@ import java.util.Map;
  */
 public class Counter {
     private Map<String, boolean[]> variables = new HashMap<>();
-    boolean[] stub = {false};
-    int countVariables = 0;
-    int lenValues = 0;
+    private final boolean[] stub = {false};
+    private int countVariables = 0;
+    private int lenValues = 0;
 
     public void reset() {
         variables = new HashMap<>();
@@ -18,32 +18,11 @@ public class Counter {
         variables.put(name, stub);
     }
 
-    public int getUnicCountVariables() {
-        return countVariables;
-    }
+    public int getLenValues() { return lenValues; }
 
     private void countCommonValues() {
         countVariables = variables.size();
         lenValues = (int) Math.pow(2, countVariables);
-    }
-
-    public int countAllVariables(Node node) {
-        switch (node.getType()) {
-            case VARIABLE:
-                variables.put(node.getValue(), stub);
-                return 1;
-            case DENIAL:
-                return countAllVariables(node.getRight());
-            case EXPRESSION:
-            case DISJUNCTION:
-            case CONJUNCTION:
-                int left = 0, right = 0;
-                if (node.getLeft() != null) { left = countAllVariables(node.getLeft()); }
-                if (node.getRight() != null) { right = countAllVariables(node.getRight()); }
-                return left + right;
-            default:
-                return 0;
-        }
     }
 
     public void fullVariables() {
@@ -62,6 +41,31 @@ public class Counter {
             variables.put(key,values);
             i++;
         }
+    }
+
+    private boolean parseValue(Node node, int i) {
+        switch (node.getType()) {
+            case VARIABLE:
+                return variables.get(node.getValue())[i];
+            case DENIAL:
+                return !parseValue(node.getRight(), i);
+            case CONJUNCTION:
+                return parseValue(node.getLeft(), i) && parseValue(node.getRight(), i);
+            case DISJUNCTION:
+                return parseValue(node.getLeft(), i) || parseValue(node.getRight(), i);
+            case EXPRESSION:
+                return !parseValue(node.getLeft(), i) || parseValue(node.getRight(), i);
+            default:
+                return false;
+        }
+    }
+
+    public int runAllValues(Node node) {
+        int result = 0;
+        for (int i = 0; i < lenValues; i++) {
+            if (parseValue(node, i)) {result++; }
+        }
+        return result;
     }
 
     public void printValues() {
