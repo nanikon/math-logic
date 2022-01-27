@@ -1,5 +1,7 @@
+.PHONY: all run
+
 all:
-	javac src/*
+	javac -sourcepath ./src -d bin src/Main.java
 
 run:
-	java Main
+	java -classpath ./bin Main

@@ -1,8 +1,4 @@
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 /**
@@ -18,11 +14,7 @@ public class AllReader {
     public char[] readStream() {
         StringBuilder result = new StringBuilder();
         while (input.hasNextLine()) {
-            result.append(
-                    input.nextLine()
-                    .replace(" ", "")
-                    .replace("\t", "")
-            );
+            result.append(input.nextLine().replace("\\s+", "").trim());
         }
         return result.toString().toCharArray();
     }
