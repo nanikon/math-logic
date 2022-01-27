@@ -4,12 +4,12 @@
 public class Main {
     public static void main(String[] args) {
         AllReader reader = new AllReader(System.in);
+        Counter counter = new Counter();
         char[] input = reader.readStream();
-        Parser parser = new Parser(input);
+        Parser parser = new Parser(input, counter);
         Node result = parser.parse();
         System.out.println(result.toString());
-        Counter counter = new Counter();
-        System.out.println(counter.countAllVariables(result));
-        System.out.println(counter.getUnicCountVariables());
+        counter.fullVariables();
+        counter.printValues();
     }
 }

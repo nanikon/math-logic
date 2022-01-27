@@ -10,10 +10,12 @@ public class Parser {
     int position;
     char[] input;
     int length;
+    Counter counter;
 
-    public Parser(char[] input) {
+    public Parser(char[] input, Counter counter) {
         this.input = input;
         this.length = input.length;
+        this.counter = counter;
     }
 
     public Node parse() {
@@ -72,6 +74,7 @@ public class Parser {
             result.append(input[position]);
             position++;
         }
+        counter.addVariable(result.toString());
         return new Node(null, null, result.toString(), NodeType.VARIABLE);
     }
 
