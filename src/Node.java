@@ -14,8 +14,20 @@ public class Node {
         this.type = type;
     }
 
-    public String fullStruct() {
-        return "(" + left.toString() + "," + right.toString() + "," + value + "," + type.name() + ")";
+    public Node getLeft() {
+        return left;
+    }
+
+    public Node getRight() {
+        return right;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public NodeType getType() {
+        return type;
     }
 
     @Override
