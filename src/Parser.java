@@ -79,6 +79,6 @@ public class Parser {
     }
 
     private boolean canBeVariableName(char c) {
-        return ((c >= '0') && (c <= '9')) || ((c >= 'A') && (c <= 'Z')) || (c == '’');
+        return ((c >= '0') && (c <= '9')) || ((c >= 'A') && (c <= 'Z')) || (c == 39);
     }
 }

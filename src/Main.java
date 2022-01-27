@@ -8,9 +8,7 @@ public class Main {
         char[] input = reader.readStream();
         Parser parser = new Parser(input, counter);
         Node result = parser.parse();
-        System.out.println(result.toString());
         counter.fullVariables();
-        counter.printValues();
         int trueCount = counter.runAllValues(result);
         if (trueCount == 0) {
             System.out.println("Unsatisfiable");
