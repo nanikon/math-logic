@@ -5,7 +5,7 @@ import java.util.Scanner;
  * @author Natalia Nikonova
  */
 public class AllReader {
-    private Scanner input;
+    private final Scanner input;
 
     public AllReader(InputStream input) {
         this.input = new Scanner(input);
