@@ -63,4 +63,20 @@ public class Node {
             } else return other.right == null;
         } else return false;
     }
+
+    public Node getLeft() {
+        return left;
+    }
+
+    public Node getRight() {
+        return right;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public NodeType getType() {
+        return type;
+    }
 }

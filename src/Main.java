@@ -5,7 +5,9 @@ import java.util.regex.Pattern;
  */
 public class Main {
     public static void main(String[] args) {
-        Proof input = new Proof();
+        checkAxiomChecker();
+
+        /*Proof input = new Proof();
         AllReader reader = new AllReader(System.in);
         String firstLine = reader.readLine();
         String[] firstSplit = firstLine.split(Pattern.quote("|-"));
@@ -25,9 +27,17 @@ public class Main {
         System.out.println("result:");
         Maker maker = new Maker();
         Proof output = maker.proofDeductionTheorem(input);
-        output.printAllProof();
-        /*char[] input = reader.readStream();
-        Node result = parser.parse();
-        System.out.println(result.toString());*/
+        output.printAllProof();*/
+    }
+
+    public static void checkAxiomChecker() {
+        AxiomChecker checker = new AxiomChecker();
+        AllReader reader = new AllReader(System.in);
+        char[] input = reader.readStream();
+        Parser parser = new Parser();
+        Node result = parser.parse(input);
+        System.out.println(result.toString());
+        System.out.println(checker.checkFirst(result));
+        System.out.println(checker.checkSecond(result));
     }
 }
