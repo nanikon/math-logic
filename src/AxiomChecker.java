@@ -30,5 +30,26 @@ public class AxiomChecker {
         return maybeAlpha1.equals(alpha) && maybeAlpha2.equals(alpha) && maybeBeta.equals(beta) && maybeGamma.equals(gamma);
     }
 
+    public boolean checkThird(Node node) {
+        if (!node.getType().equals(NodeType.EXPRESSION)) { return false; }
+        Node alpha = node.getLeft();
+        Node right1 = node.getRight();
+        if (!right1.getType().equals(NodeType.EXPRESSION)) { return false; }
+        Node beta = right1.getLeft();
+        Node right2 = right1.getRight();
+        if (!right2.getType().equals(NodeType.CONJUNCTION)) { return false; }
+        return alpha.equals(right2.getLeft()) && beta.equals(right2.getRight());
+    }
 
+    public boolean checkFourth(Node node) {
+        return node.getType().equals(NodeType.EXPRESSION)
+                && node.getLeft().getType().equals(NodeType.CONJUNCTION)
+                && node.getRight().equals(node.getLeft().getLeft());
+    }
+
+    public boolean checkFifth(Node node) {
+        return node.getType().equals(NodeType.EXPRESSION)
+                && node.getLeft().getType().equals(NodeType.CONJUNCTION)
+                && node.getRight().equals(node.getLeft().getRight());
+    }
 }

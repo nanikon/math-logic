@@ -39,5 +39,8 @@ public class Main {
         System.out.println(result.toString());
         System.out.println(checker.checkFirst(result));
         System.out.println(checker.checkSecond(result));
+        System.out.println(checker.checkThird(result));
+        System.out.println(checker.checkFourth(result));
+        System.out.println(checker.checkFifth(result));
     }
 }
