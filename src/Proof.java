@@ -50,13 +50,13 @@ public class Proof {
         for (Node expr: context) {
             System.out.print(expr.toString() + ",");
         }
-        System.out.println(alfa.toString() + "|-" + betta.toString());
-        printProof();
-    }
-
-    public void printProof() {
+        if (alfa == null) {
+            System.out.println("|- " + betta.linealView(true));
+        } else {
+            System.out.println(alfa.linealView(true) + "|-" + betta.linealView(true));
+        }
         for (Node expr: proof) {
-            System.out.println(expr.toString());
+            System.out.println(expr.linealView(true));
         }
     }
 }

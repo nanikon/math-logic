@@ -22,6 +22,10 @@ public class Main {
             exprProof = reader.readLine();
         }
         input.printAllProof();
+        System.out.println("result:");
+        Maker maker = new Maker();
+        Proof output = maker.proofDeductionTheorem(input);
+        output.printAllProof();
         /*char[] input = reader.readStream();
         Node result = parser.parse();
         System.out.println(result.toString());*/
