@@ -1,5 +1,6 @@
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Natalia Nikonova
@@ -47,13 +48,11 @@ public class Proof {
     }
 
     public void printAllProof() {
-        for (Node expr: context) {
-            System.out.print(expr.linealView(true) + ",");
-        }
+        String contextLine = context.stream().map((expr) -> expr.linealView(true)).collect(Collectors.joining(","));
         if (alfa == null) {
-            System.out.println("|- " + betta.linealView(true));
+            System.out.println(contextLine + " |- " + betta.linealView(true));
         } else {
-            System.out.println(alfa.linealView(true) + "|-" + betta.linealView(true));
+            System.out.println(contextLine + "," + alfa.linealView(true) + " |-" + betta.linealView(true));
         }
         for (Node expr: proof) {
             System.out.println(expr.linealView(true));

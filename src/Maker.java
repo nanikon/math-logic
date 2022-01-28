@@ -5,6 +5,7 @@ import java.util.List;
  * @author Natalia Nikonova
  */
 public class Maker {
+    AxiomChecker checker = new AxiomChecker();
     public Proof proofDeductionTheorem(Proof input) {
         Proof output = new Proof();
         output.setBetta(new Node(input.getAlfa(), input.getBetta(), null, NodeType.EXPRESSION));
@@ -12,19 +13,15 @@ public class Maker {
         ArrayList<Node> inputProof = new ArrayList<>(input.getProof());
         for (int i = 0; i < inputProof.size(); i++) {
             Node expr = inputProof.get(i);
-            if (input.getContext().contains(expr)) {
+            if (input.getContext().contains(expr) || checker.checkAllAxiom(expr)) {
                 handleAsAxiom(expr, input.getAlfa(), output);
-                System.out.println(i + " обработалась как аксимоа/контекст");
             } else if (expr.equals(input.getAlfa())) {
                 handleAsAlpha(expr, output);
-                System.out.println(i + " обработалась как совпадающая с alpha");
             } else {
                 int index_delta_j = foundIndexToMP(inputProof, expr, i);
                 if (index_delta_j >= 0 ) {
-                    System.out.println(i + " обработалась как mp");
                     handleAsMP(expr, inputProof.get(index_delta_j), input.getAlfa(), output);
                 } else {
-                    System.out.println(i + " не нашла mp. index_delta_j: " + index_delta_j);
                     output.addToProofEnd(expr);
                 }
             }
@@ -80,8 +77,8 @@ public class Maker {
         Node alphaToExpr = new Node(alpha, expr, null, NodeType.EXPRESSION);
         Node firstAx = new Node(expr, alphaToExpr, null, NodeType.EXPRESSION);
 
-        output.addToProofEnd(firstAx);
         output.addToProofEnd(expr);
+        output.addToProofEnd(firstAx);
         output.addToProofEnd(alphaToExpr);
     }
 }

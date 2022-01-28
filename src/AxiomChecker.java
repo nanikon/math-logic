@@ -112,4 +112,17 @@ public class AxiomChecker {
                 && node.getLeft().getRight().getType().equals(NodeType.DENIAL)
                 && node.getLeft().getRight().getRight().equals(node.getRight());
     }
+
+    public boolean checkAllAxiom(Node node) {
+        return checkFirst(node)
+                || checkSecond(node)
+                || checkThird(node)
+                || checkFourth(node)
+                || checkFifth(node)
+                || checkSixth(node)
+                || checkSeventh(node)
+                || checkEighth(node)
+                || checkNinth(node)
+                || checkTenth(node);
+    }
 }
