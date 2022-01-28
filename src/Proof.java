@@ -45,4 +45,14 @@ public class Proof {
     public void addTpProofBefore(Node before, Node insert) {
         this.proof.add(this.proof.indexOf(before), insert);
     }
+
+    public void printProof() {
+        for (Node expr: context) {
+            System.out.print(expr.toString() + ",");
+        }
+        System.out.println(alfa.toString() + "|-" + betta.toString());
+        for (Node expr: proof) {
+            System.out.println(expr.toString());
+        }
+    }
 }

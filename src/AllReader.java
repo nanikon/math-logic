@@ -18,4 +18,8 @@ public class AllReader {
         }
         return result.toString().toCharArray();
     }
+
+    public String readLine() {
+        return input.hasNextLine() ? input.nextLine() : null;
+    }
 }

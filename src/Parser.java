@@ -11,12 +11,9 @@ public class Parser {
     char[] input;
     int length;
 
-    public Parser(char[] input) {
+    public Node parse(char[] input) {
         this.input = input;
         this.length = input.length;
-    }
-
-    public Node parse() {
         this.position = 0;
         return parseExpr();
     }
