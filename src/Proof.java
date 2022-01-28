@@ -46,11 +46,15 @@ public class Proof {
         this.proof.add(this.proof.indexOf(before), insert);
     }
 
-    public void printProof() {
+    public void printAllProof() {
         for (Node expr: context) {
             System.out.print(expr.toString() + ",");
         }
         System.out.println(alfa.toString() + "|-" + betta.toString());
+        printProof();
+    }
+
+    public void printProof() {
         for (Node expr: proof) {
             System.out.println(expr.toString());
         }

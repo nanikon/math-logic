@@ -21,7 +21,7 @@ public class Main {
             input.addToProofEnd(parser.parse(exprProof.toCharArray()));
             exprProof = reader.readLine();
         }
-        input.printProof();
+        input.printAllProof();
         /*char[] input = reader.readStream();
         Node result = parser.parse();
         System.out.println(result.toString());*/
