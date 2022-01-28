@@ -42,5 +42,8 @@ public class Main {
         System.out.println(checker.checkThird(result));
         System.out.println(checker.checkFourth(result));
         System.out.println(checker.checkFifth(result));
+        System.out.println(checker.checkSixth(result));
+        System.out.println(checker.checkSeventh(result));
+        System.out.println(checker.checkEighth(result));
     }
 }
