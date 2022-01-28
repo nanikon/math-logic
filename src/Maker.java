@@ -8,10 +8,14 @@ public class Maker {
     public Proof proofDeductionTheorem(Proof input) {
         Proof output = new Proof();
         output.setBetta(new Node(input.getAlfa(), input.getBetta(), null, NodeType.EXPRESSION));
+        output.setContext(input.getContext());
         ArrayList<Node> inputProof = new ArrayList<>(input.getProof());
         for (int i = 0; i < inputProof.size(); i++) {
             Node expr = inputProof.get(i);
-            if (expr.equals(input.getAlfa())) {
+            if (input.getContext().contains(expr)) {
+                handleAsAxiom(expr, input.getAlfa(), output);
+                System.out.println(i + " обработалась как аксимоа/контекст");
+            } else if (expr.equals(input.getAlfa())) {
                 handleAsAlpha(expr, output);
                 System.out.println(i + " обработалась как совпадающая с alpha");
             } else {
@@ -70,5 +74,14 @@ public class Maker {
         output.addToProofEnd(secondAx);
         output.addToProofEnd(mp);
         output.addToProofEnd(alphaToDeltaI);
+    }
+
+    private void handleAsAxiom(Node expr, Node alpha, Proof output) {
+        Node alphaToExpr = new Node(alpha, expr, null, NodeType.EXPRESSION);
+        Node firstAx = new Node(expr, alphaToExpr, null, NodeType.EXPRESSION);
+
+        output.addToProofEnd(firstAx);
+        output.addToProofEnd(expr);
+        output.addToProofEnd(alphaToExpr);
     }
 }

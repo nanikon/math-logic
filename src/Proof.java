@@ -48,7 +48,7 @@ public class Proof {
 
     public void printAllProof() {
         for (Node expr: context) {
-            System.out.print(expr.toString() + ",");
+            System.out.print(expr.linealView(true) + ",");
         }
         if (alfa == null) {
             System.out.println("|- " + betta.linealView(true));
@@ -58,5 +58,9 @@ public class Proof {
         for (Node expr: proof) {
             System.out.println(expr.linealView(true));
         }
+    }
+
+    public void setContext(List<Node> context) {
+        this.context = context;
     }
 }
