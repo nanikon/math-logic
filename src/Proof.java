@@ -49,11 +49,10 @@ public class Proof {
 
     public void printAllProof() {
         String contextLine = context.stream().map((expr) -> expr.linealView(true)).collect(Collectors.joining(","));
-        if (alfa == null) {
-            System.out.println(contextLine + " |- " + betta.linealView(true));
-        } else {
-            System.out.println(contextLine + "," + alfa.linealView(true) + " |-" + betta.linealView(true));
+        if (!contextLine.equals("")) {
+            contextLine = contextLine + " ";
         }
+        System.out.println(contextLine + "|- " + betta.linealView(true));
         for (Node expr: proof) {
             System.out.println(expr.linealView(true));
         }

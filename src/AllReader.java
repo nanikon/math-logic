@@ -20,6 +20,9 @@ public class AllReader {
     }
 
     public String readLine() {
-        return input.hasNextLine() ? input.nextLine() : null;
+        return input.hasNextLine() ? input.nextLine().replace(" ", "")
+                .replace("\t", "")
+                .replace("\r", "")
+                .trim() : null;
     }
 }

@@ -30,16 +30,11 @@ public class Maker {
     }
 
     private int foundIndexToMP(List<Node> proof, Node expr, int i) {
-        for (int j = 0; j < i - 1; j++) {
-            Node delta_j = proof.get(j);
-            for (int k = j; k < i; k++) {
-                Node delta_k = proof.get(k);
-                if (delta_k.equals(new Node(delta_j, expr, null, NodeType.EXPRESSION))) {
-                    return j;
-                }
-                if (delta_j.equals(new Node(delta_k, expr, null, NodeType.EXPRESSION))) {
-                    return k;
-                }
+        for (int j = 0; j < i; j++) {
+            Node delta_k = proof.get(j);
+            if (delta_k.getType().equals(NodeType.EXPRESSION) && delta_k.getRight().equals(expr)) {
+                int index_j = proof.indexOf(delta_k.getLeft());
+                if (index_j >= 0 && index_j < i) { return index_j; }
             }
         }
         return -1;
